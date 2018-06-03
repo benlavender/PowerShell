@@ -79,16 +79,23 @@ Begin {
 }
 
 Process {
-    Write-Host "`n"
-    Write-Host "ADDS DNS Partition = $LOCALADDSFOREST"
-    Write-Host "ADDS Forest Functionality Level = $LOCALADDSFORRESTMODE"
-    Write-Host "ADDS Domain Functionality Level = $LOCALADDSDMODE"
-    Write-Host "Exchange Organization Name = $ExchangeOrgName"
-    Write-Host "Exchanges servers in organization: $ExchServers"
-    Write-Host "`n"
-    Write-Host "Exchange ProductID (msExchProductId) = $ExchangeProductID"
-    Write-Host "Exchange Schema Version (rangeUpper) = $ExcSchemaVersion"
-    Write-Host "Microsoft Exchange System Objects version (MESO objectVersion) = $ExchangeMESO"
-    Write-Host "Exchange Org Version (Organisation objectVersion) = $ExchangeOrgVersion"
-    Write-Host "`n"
+    if ($LOCALADDSPARTITION -eq "WORKGROUP") {
+        Clear-Host
+        Write-Host -ForegroundColor Red "This script only supports domain-joined machines, I.e not workgroup machines."
+        Break
+    }
+    else {
+        Write-Host "`n"
+        Write-Host "ADDS DNS Partition = $LOCALADDSFOREST"
+        Write-Host "ADDS Forest Functionality Level = $LOCALADDSFORRESTMODE"
+        Write-Host "ADDS Domain Functionality Level = $LOCALADDSDMODE"
+        Write-Host "Exchange Organization Name = $ExchangeOrgName"
+        Write-Host "Exchanges servers in organization: $ExchServers"
+        Write-Host "`n"
+        Write-Host "Exchange ProductID (msExchProductId) = $ExchangeProductID"
+        Write-Host "Exchange Schema Version (rangeUpper) = $ExcSchemaVersion"
+        Write-Host "Microsoft Exchange System Objects version (MESO objectVersion) = $ExchangeMESO"
+        Write-Host "Exchange Org Version (Organisation objectVersion) = $ExchangeOrgVersion"
+        Write-Host "`n"
+    }
 }
