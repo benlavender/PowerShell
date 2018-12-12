@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 1.0
+.VERSION 1.0.0
 
 .GUID 041dbc44-2d46-45a0-845e-ac476091deee
 
@@ -13,9 +13,9 @@
 
 .TAGS 
 
-.LICENSEURI 
+.LICENSEURI https://github.com/benlavender/PowerShell/blob/master/LICENSE
 
-.PROJECTURI 
+.PROJECTURI https://github.com/benlavender/PowerShell/tree/master/Azure/Modules/ARM.Calls
 
 .ICONURI 
 
@@ -26,7 +26,6 @@
 .EXTERNALSCRIPTDEPENDENCIES 
 
 .RELEASENOTES
-
 
 #>
 
@@ -89,22 +88,24 @@ function Get-AzBearerKey {
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]$Credential
         
-        )
-
+    )
+    
     begin {
 
         #Build REST POST request
-        $WebForms=@{
+        $WebForms = @{
             grant_type = "client_credentials"
             client_id = "$($Credential.UserName)"
             client_secret = "$($Credential.GetNetworkCredential().Password)"
             resource = "https://management.azure.com"
-        }
-        $Headers=@{
+        } 
+        
+        $Headers = @{
             "Accept" = "application/json"
             "cache-control" = "no-cache"
         }
-        $params=@{
+
+        $params = @{
             Body = $WebForms
             Method = "POST"
             Headers = $Headers
@@ -117,7 +118,7 @@ function Get-AzBearerKey {
         try {
 
             #Connect to Azure AD
-            Connect-AzAccount -Subscription $subscriptionID -Tenant $tenantID -Credential $Credential -ServicePrincipal -Environment $Environment -Verbose
+            Connect-AzAccount -Subscription $($subscriptionID) -Tenant $($tenantID) -Credential $Credential -ServicePrincipal -Environment $($Environment) -Verbose
         }
 
         catch {
@@ -135,3 +136,9 @@ function Get-AzBearerKey {
         Disconnect-AzAccount -Verbose
     }
 }
+
+Get-AzBearerKey -tenantID 8213407f-573b-47b0-b0e8-91c73265db11 -subscriptionID 4b16431e-ae4a-4785-a79d-f08a13ab4d10 -homepage https://RestClient_SVC 
+
+GET https://management.azure.com/subscriptions/$subscriptionID/resources?api-version=2018-05-01
+
+$Headers = @{"Accept" = "application/json"; "cache-control" = "no-cache"}
